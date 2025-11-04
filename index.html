@@ -1,431 +1,441 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>RILEXO — Robot Admin & Automasi Bisnis</title>
-<meta name="description" content="RILEXO: Robot Admin & Automasi untuk UMKM hingga Enterprise. Garansi kinerja, SLA jelas, dan desain sistem yang stabil." />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AutoRan — Automation Matrix</title>
+<meta name="description" content="AutoRan: Agensi Otomasi Low‑Code berbasis ROI. Ubah biaya operasional menjadi investasi kinerja dengan workflow API-centric yang stabil dan real-time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ---------------------------
-     DESIGN TOKENS
-  ----------------------------*/
-  :root{
-    --bg:#0b0b0f;
-    --bg-2:#0d0f14;
-    --txt:#e9edf5;
-    --muted:#a6adbb;
-    --accent:#ff8a2a;
-    --accent-2:#ffb86b;
-    --glass:rgba(255,255,255,.06);
-    --stroke:rgba(255,255,255,.12);
-    --shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 60px rgba(255,140,20,.12);
-    --radius:20px;
-    --radius-lg:26px;
-    --max:1200px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-    background: radial-gradient(1000px 500px at 50% -20%, rgba(255,140,40,.18), transparent 60%),
-                radial-gradient(800px 500px at 80% 10%, rgba(255,180,80,.08), transparent 50%),
-                var(--bg);
-    color:var(--txt);
-    line-height:1.55;
-    overflow-x:hidden;
-  }
-  a{color:inherit;text-decoration:none}
-  .container{width:100%;max-width:var(--max);margin:0 auto;padding:0 24px}
-  .badge{display:inline-flex;gap:8px;align-items:center;font-size:12px;color:#ffe0c2;background:linear-gradient(90deg,rgba(255,140,40,.3),rgba(255,140,40,.15));border:1px solid rgba(255,140,40,.35);padding:6px 10px;border-radius:999px;backdrop-filter:blur(6px)}
-  .heading-xl{font-size:clamp(32px,6vw,64px);line-height:1.05;margin:0 0 10px;font-weight:800;letter-spacing:.2px}
-  .sub{color:var(--muted);font-size:clamp(15px,2.6vw,18px)}
-  .btn{
-    --_bg:linear-gradient(180deg, #ff963c, #ff7a10);
-    position:relative;display:inline-flex;align-items:center;gap:10px;
-    padding:14px 20px;border-radius:14px;background:var(--_bg);
-    color:#1b130c;font-weight:700;border:1px solid #ffb980; box-shadow:0 10px 20px rgba(255,140,40,.25);
-    transform:translateZ(0); transition:transform .18s ease, box-shadow .18s ease;
-    will-change:transform;
-  }
-  .btn span.arrow{display:inline-block;transition:transform .2s ease}
-  .btn:hover{transform:translateY(-2px); box-shadow:0 14px 30px rgba(255,140,40,.35)}
-  .btn:hover span.arrow{transform:translateX(4px)}
-  .btn.ghost{--_bg:transparent;color:var(--txt);border:1px solid var(--stroke);box-shadow:none;background:transparent}
-  .btn.ghost:hover{border-color:#ffffff33}
+/* ============================
+   DESIGN TOKENS
+============================ */
+:root{
+  --bg-0:#0a0f14;
+  --bg-1:#08141d;
+  --bg-2:#051a23;
+  --fg:#e6f3ff;
+  --muted:#9db3c6;
+  --neon-b:#1fd1ff;
+  --neon-g:#30ffa0;
+  --neon-o:#ff8a2a;
+  --card:rgba(255,255,255,.04);
+  --stroke:rgba(255,255,255,.12);
+  --glow: 0 0 24px rgba(48,255,160,.25), 0 0 48px rgba(31,209,255,.18);
+  --radius:18px;
+  --max:1200px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background:
+    radial-gradient(1200px 800px at 15% -10%, rgba(31,209,255,.12), transparent 55%),
+    radial-gradient(1100px 800px at 85% -20%, rgba(48,255,160,.10), transparent 55%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-2) 60%, var(--bg-0));
+  color:var(--fg);
+  line-height:1.55;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+.container{width:100%;max-width:var(--max);margin:0 auto;padding:0 24px}
+h1,h2,h3{margin:0 0 10px}
 
-  /* NAVBAR */
-  .nav{
-    position:fixed; top:0; left:0; right:0; z-index:50;
-    padding:14px 0; background:rgba(9,9,14,.25);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid rgba(255,255,255,.06);
-  }
-  .nav .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
-  .logo-dot{width:12px;height:12px;border-radius:50%;
-    background:radial-gradient(circle at 30% 30%,#fff, #ffc27a 35%, #ff8a2a 60%, #b64a00);
-    box-shadow:0 0 16px #ff8a2a88, 0 0 30px #ff8a2a55;
-  }
-  .nav .links{display:flex;gap:18px;align-items:center}
-  .nav a.link{padding:8px 10px;border-radius:10px;color:var(--muted);font-weight:600}
-  .nav a.link:hover{color:var(--txt);background:rgba(255,255,255,.04)}
-  .nav .cta{margin-left:auto}
+/* NAV */
+.nav{
+  position:fixed; inset:0 0 auto 0; z-index:50;
+  background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.15));
+  border-bottom:1px solid var(--stroke);
+  backdrop-filter:saturate(150%) blur(8px);
+}
+.nav-inner{display:flex;align-items:center;gap:16px;padding:14px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
+.brand .dot{width:12px;height:12px;border-radius:50%;
+  background: radial-gradient(circle at 35% 35%, #fff, var(--neon-b) 45%, #088cff 70%, #0046ff 80%);
+  box-shadow:0 0 20px rgba(31,209,255,.7), 0 0 40px rgba(31,209,255,.45);
+}
+.links{display:flex;gap:16px;margin-left:8px;flex-wrap:wrap}
+.links a{padding:8px 10px;border-radius:10px;color:var(--muted);font-weight:600}
+.links a:hover{color:var(--fg);background:rgba(255,255,255,.05)}
+.nav .cta{margin-left:auto}
 
-  /* HERO */
-  .hero{
-    position:relative; padding-top:120px; padding-bottom:120px; min-height:92vh;
-    display:grid; place-items:center;
-  }
-  .hero-grid{display:grid; grid-template-columns:1.2fr .9fr; gap:40px; align-items:center}
-  .glow-ring{
-    position:absolute; inset:auto 0 -120px 0; height:320px; pointer-events:none;
-    background:radial-gradient(60% 100% at 50% 0, rgba(255,120,10,.55), transparent 60%);
-    filter:blur(40px); opacity:.7;
-  }
+/* BUTTONS */
+.btn{
+  --ring: rgba(31,209,255,.35);
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 18px;border-radius:14px;
+  background:linear-gradient(180deg, #38f7b2, #15c4ff);
+  color:#06171f;font-weight:800;border:1px solid rgba(255,255,255,.2);
+  box-shadow:0 10px 26px rgba(31,209,255,.25);
+  position:relative; overflow:hidden; transform:translateZ(0);
+}
+.btn .arrow{transition:transform .2s ease}
+.btn:hover .arrow{transform:translateX(4px)}
+.btn.ghost{
+  background:transparent;color:var(--fg);
+  border:1px solid var(--stroke); box-shadow:none;
+}
+.btn:focus{outline:none;box-shadow:0 0 0 6px var(--ring)}
+/* ripple */
+.btn::after{
+  content:""; position:absolute; inset:auto auto 0 0; width:0; height:0;
+  background: radial-gradient(120px 120px at center, rgba(255,255,255,.35), transparent 60%);
+  transform: translate(-50%, 50%); pointer-events:none; opacity:0;
+  transition:opacity .4s ease, width .4s ease, height .4s ease;
+}
+.btn:active::after{opacity:1;width:160px;height:160px}
 
-  /* FLAMES BACKDROP (like reference gradient waves) */
-  .flames{
-    position:absolute; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
-  }
-  .flames::before, .flames::after{
-    content:""; position:absolute; left:-10%; right:-10%; height:55%;
-    background:
-      linear-gradient( to top, rgba(255,145,40,.35), rgba(255,145,40,0) ),
-      repeating-linear-gradient(90deg, transparent 0 12%, rgba(255,255,255,.04) 12.2% 12.6%, transparent 12.8% 25%);
-    bottom:-8%;
-    filter:blur(14px) contrast(110%);
-    mask: radial-gradient(120% 120% at 50% 120%, #000 55%, transparent 70%);
-    animation: rise 9s ease-in-out infinite alternate;
-  }
-  .flames::after{animation-duration:12s; opacity:.7; transform:scaleX(-1)}
-  @keyframes rise{
-    0%{transform:translateY(8px)}
-    100%{transform:translateY(-18px)}
-  }
+/* HERO */
+.hero{position:relative;padding-top:120px;min-height:96vh;display:grid;place-items:center}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.badge{display:inline-flex;gap:8px;align-items:center;font-size:12px;color:#bcecff;background:linear-gradient(90deg,rgba(31,209,255,.25),rgba(48,255,160,.22));border:1px solid rgba(31,209,255,.35);padding:6px 10px;border-radius:999px}
+.heading-xl{font-size:clamp(34px,6.3vw,64px);line-height:1.04;font-weight:800;letter-spacing:.2px}
+.sub{color:var(--muted);font-size:clamp(15px,2.6vw,18px)}
+.highlight{background:linear-gradient(90deg,var(--neon-b),var(--neon-g));-webkit-background-clip:text;color:transparent;text-shadow:0 0 20px rgba(48,255,160,.25)}
 
-  /* ORBS (parallax) */
-  .orb{
-    position:absolute; width:200px; height:200px; border-radius:30%;
-    background:radial-gradient(circle at 35% 30%, #fff4, #ffb86b88 25%, #ff8a2a88 55%, #ff6a1a 75%, #0000 80%);
-    filter:blur(1px) saturate(115%);
-    mix-blend-mode:screen; pointer-events:none; transform:translateZ(0);
-    animation: float 8s ease-in-out infinite;
-  }
-  .orb.o1{top:8%; left:8%}
-  .orb.o2{top:20%; right:12%; animation-duration:10s}
-  .orb.o3{bottom:14%; left:20%; animation-duration:12s}
-  @keyframes float{
-    0%,100%{transform:translateY(-8px)}
-    50%{transform:translateY(8px)}
-  }
+/* MATRIX BACKDROP */
+#matrix{position:fixed; inset:0; z-index:-2}
+#glow-veil{
+  position:fixed; inset:0; z-index:-3; pointer-events:none;
+  background: radial-gradient(800px 600px at 50% -10%, rgba(31,209,255,.15), transparent 60%),
+              radial-gradient(900px 700px at 85% 0%, rgba(48,255,160,.12), transparent 60%);
+}
 
-  /* CARDS / SECTIONS */
-  section{position:relative; padding:80px 0}
-  .surface{
-    position:relative;background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-    border:1px solid var(--stroke); border-radius:var(--radius-lg);
-    box-shadow:var(--shadow); overflow:hidden;
-  }
-  .surface::before{
-    /* shimmering border */
-    content:""; position:absolute; inset:-1px; border-radius:inherit;
-    background:conic-gradient(from 180deg, transparent, rgba(255,170,70,.55), transparent 30%);
-    filter:blur(16px); opacity:.35; pointer-events:none; mix-blend-mode:screen;
-    animation: spin 6s linear infinite;
-  }
-  @keyframes spin{to{transform:rotate(360deg)}}
+/* 3D CUBE */
+.cube-wrap{perspective:1000px;transform-style:preserve-3d}
+.cube{position:relative;width:220px;height:220px;transform-style:preserve-3d;animation:spin 12s linear infinite}
+.face{
+  position:absolute; inset:0; display:grid; place-items:center;
+  background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+  border:1px solid var(--stroke); border-radius:16px; box-shadow:var(--glow);
+  backdrop-filter: blur(6px);
+  font-weight:800; font-size:44px; color:#0c1d21;
+}
+.face::after{content:""; position:absolute; inset:-1px; border-radius:inherit; background:
+  conic-gradient(from 0deg, transparent, rgba(31,209,255,.55), transparent 30%);
+  filter:blur(16px); opacity:.35; mix-blend-mode:screen; pointer-events:none;
+}
+.cube .f1{transform:translateZ(110px); background:linear-gradient(180deg,#a6fff755,#68e9ff44)}
+.cube .f2{transform:rotateY(90deg) translateZ(110px); background:linear-gradient(180deg,#b8ffed66,#63ffe266)}
+.cube .f3{transform:rotateY(180deg) translateZ(110px)}
+.cube .f4{transform:rotateY(-90deg) translateZ(110px)}
+.cube .f5{transform:rotateX(90deg) translateZ(110px)}
+.cube .f6{transform:rotateX(-90deg) translateZ(110px)}
+@keyframes spin{to{transform:rotateX(360deg) rotateY(360deg)}}
 
-  .grid{display:grid; gap:22px}
-  .grid.cols-3{grid-template-columns:repeat(3, minmax(0,1fr))}
-  .grid.cols-2{grid-template-columns:repeat(2, minmax(0,1fr))}
-  @media (max-width:980px){ .hero-grid{grid-template-columns:1fr} .grid.cols-3{grid-template-columns:1fr} .grid.cols-2{grid-template-columns:1fr} }
+/* SURFACES / CARDS */
+section{position:relative;padding:80px 0}
+.surface{
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border:1px solid var(--stroke); border-radius:var(--radius); box-shadow:var(--glow); overflow:hidden;
+}
+.grid{display:grid;gap:22px}
+.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border:1px solid var(--stroke); border-radius:16px; padding:22px 18px;
+  transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.card:hover{transform:translateY(-6px); border-color:rgba(31,209,255,.5); box-shadow:0 16px 44px rgba(31,209,255,.25)}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8feff6}
+.h3{font-size:22px;margin:6px 0 10px;font-weight:800}
+.price{font-weight:900;color:#afffe2}
+.list{margin:10px 0 0;padding:0;list-style:none}
+.list li{display:flex;gap:10px;align-items:flex-start;margin:7px 0}
+.dot{width:8px;height:8px;border-radius:999px;background:linear-gradient(180deg,var(--neon-b),var(--neon-g));box-shadow:0 0 18px rgba(31,209,255,.7);margin-top:7px}
 
-  .card{
-    background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-    border:1px solid var(--stroke); border-radius:18px; padding:22px 20px;
-    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    cursor:default; will-change:transform;
-  }
-  .card:hover{transform:translateY(-6px) rotateX(2deg) rotateY(-2deg); box-shadow:0 16px 40px rgba(255,140,40,.22); border-color:rgba(255,180,100,.55)}
-  .kicker{font-size:12px; letter-spacing:.18em; color:#ffcfa1; text-transform:uppercase}
-  .h3{font-size:22px; margin:6px 0 10px; font-weight:800}
-  .price{font-weight:900; color:#ffd7ad}
-  .muted{color:var(--muted)}
-  .list{margin:12px 0 0; padding:0; list-style:none}
-  .list li{display:flex; gap:10px; align-items:flex-start; margin:8px 0}
-  .dot{width:8px;height:8px;background:var(--accent);border-radius:999px;box-shadow:0 0 16px #ff8a2a88;margin-top:7px}
+/* TIMELINE PRICING */
+.timeline{position:relative;padding:10px 0}
+.timeline::before{
+  content:""; position:absolute; left:12px; top:0; bottom:0; width:2px;
+  background:linear-gradient(180deg, var(--neon-b), var(--neon-g));
+  filter:blur(.3px)
+}
+.step{position:relative;padding-left:38px;margin:14px 0}
+.step::before{
+  content:""; position:absolute; left:6px; top:.4em; width:14px; height:14px; border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #fff, var(--neon-b) 55%, #05a9ff 80%);
+  box-shadow:0 0 20px rgba(31,209,255,.7);
+}
+.step .tag{display:inline-block;font-size:12px;padding:4px 8px;border:1px solid var(--stroke);border-radius:999px;color:#bfe9ff;margin-bottom:6px}
 
-  /* TABLE */
-  table{width:100%;border-collapse:separate;border-spacing:0 10px}
-  th,td{padding:16px 18px;text-align:left}
-  th{color:#ffd7ad;font-weight:800;font-size:14px}
-  tr{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid var(--stroke); border-radius:14px}
-  tr td:first-child, tr th:first-child{border-top-left-radius:14px;border-bottom-left-radius:14px}
-  tr td:last-child, tr th:last-child{border-top-right-radius:14px;border-bottom-right-radius:14px}
-  tbody tr:hover{outline:1px solid rgba(255,180,100,.5)}
+/* TABLE */
+table{width:100%;border-collapse:separate;border-spacing:0 10px}
+th,td{padding:16px 18px;text-align:left}
+th{color:#bfe9ff;font-weight:800;font-size:14px}
+tr{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015)); border:1px solid var(--stroke); border-radius:14px}
+tr td:first-child, tr th:first-child{border-top-left-radius:14px;border-bottom-left-radius:14px}
+tr td:last-child, tr th:last-child{border-top-right-radius:14px;border-bottom-right-radius:14px}
+tbody tr:hover{outline:1px solid rgba(48,255,160,.45)}
 
-  /* FORM */
-  .field{display:grid;gap:8px}
-  .input, .textarea{
-    width:100%; padding:14px 14px; border-radius:14px; background:rgba(255,255,255,.04);
-    color:var(--txt); border:1px solid var(--stroke); outline:none;
-    transition:border-color .2s ease, box-shadow .2s ease;
-  }
-  .textarea{min-height:110px; resize:vertical}
-  .input:focus, .textarea:focus{border-color:#ffb980; box-shadow:0 0 0 6px rgba(255,150,60,.12)}
+/* FORM */
+.field{display:grid;gap:8px}
+.input,.textarea{
+  width:100%;padding:14px;border-radius:14px;background:rgba(255,255,255,.05);
+  color:var(--fg);border:1px solid var(--stroke);outline:none;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.textarea{min-height:110px;resize:vertical}
+.input:focus,.textarea:focus{border-color:#37e2ff; box-shadow:0 0 0 6px rgba(31,209,255,.12)}
 
-  /* SCROLL REVEAL */
-  [data-reveal]{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.6,.2,1)}
-  [data-reveal].is-visible{opacity:1; transform:none}
+/* REVEAL */
+[data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s cubic-bezier(.2,.6,.2,1)}
+[data-reveal].is-visible{opacity:1;transform:none}
 
-  /* FOOTER */
-  footer{padding:36px 0 70px;color:#98a0af}
-  .sep{height:1px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent); margin:40px 0}
+/* FOOTER */
+footer{padding:36px 0 70px;color:#9ab1c4}
+.sep{height:1px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent); margin:40px 0}
 
-  /* PARTICLE CANVAS PLACEHOLDER LAYER */
-  #fx{position:fixed; inset:0; z-index:-1}
-
-  /* SMALL UTILS */
-  .center{display:flex;align-items:center;gap:14px}
-  .note{font-size:13px;color:#ffddb6;background:rgba(255,140,40,.08);border:1px dashed rgba(255,140,40,.45);padding:8px 10px;border-radius:10px;display:inline-block}
+/* RESPONSIVE */
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr}
+  .cols-3,.cols-2{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
-<canvas id="fx"></canvas>
+<canvas id="matrix" aria-hidden="true"></canvas>
+<div id="glow-veil" aria-hidden="true"></div>
 
-<!-- =========================
-     NAVBAR
-     Section Note: Navigasi cepat + CTA
-========================== -->
+<!-- NAV -->
 <nav class="nav">
-  <div class="container center" style="gap:16px">
-    <div class="brand"><span class="logo-dot"></span> RILEXO</div>
-    <div class="links" style="margin-left:24px">
-      <a class="link" href="#paket">Paket</a>
-      <a class="link" href="#garansi">Garansi / Retainer</a>
-      <a class="link" href="#final">Gratis Analisis</a>
+  <div class="container nav-inner">
+    <div class="brand"><span class="dot"></span> AutoRan</div>
+    <div class="links">
+      <a href="#nilai">Nilai Inti</a>
+      <a href="#paket">Paket</a>
+      <a href="#garansi">Retainer</a>
+      <a href="#form">Analisis Gratis</a>
     </div>
-    <div class="cta" style="margin-left:auto">
-      <a href="#final" class="btn">Coba Analisis <span class="arrow">→</span></a>
+    <div class="cta">
+      <a class="btn" href="#form">Hitung ROI <span class="arrow">→</span></a>
     </div>
   </div>
 </nav>
 
-<!-- decorative background layers -->
-<div class="flames"></div>
-<div class="orb o1"></div>
-<div class="orb o2"></div>
-<div class="orb o3"></div>
-<div class="glow-ring"></div>
-
-<!-- =========================
-     HERO
-     Section Note: Edukasi nilai + trigger tindakan awal
-========================== -->
+<!-- HERO -->
 <header class="hero">
   <div class="container hero-grid">
     <div data-reveal>
-      <span class="badge">Robot Admin • Otomasi Bisnis</span>
-      <h1 class="heading-xl">Ubah Biaya Operasional menjadi <span style="background:linear-gradient(90deg,#ffd7ad,#ff8a2a);-webkit-background-clip:text;color:transparent">Kinerja</span>.</h1>
-      <p class="sub">RILEXO membangun <strong>agen otomatis</strong> yang bekerja 24/7 untuk UMKM, Perusahaan Menengah, hingga Enterprise — stabil, terukur, dan punya audit trail.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
-        <a class="btn" href="#paket">Lihat Paket <span class="arrow">→</span></a>
-        <a class="btn ghost" href="#garansi">Garansi Kinerja</a>
-      </div>
-      <div style="margin-top:16px">
-        <span class="note">Section Note: Halaman pembuka dengan headline kuat + CTA ganda (eksplor → konversi).</span>
+      <span class="badge">Agensi Otomasi Low‑Code • API‑Centric</span>
+      <h1 class="heading-xl">Ubah biaya operasional jadi <span class="highlight">Investasi Kinerja</span>.</h1>
+      <p class="sub">AutoRan merancang workflow otomatis berbasis open‑source (N8N) yang stabil, real‑time, dan terukur — menghilangkan bottleneck, menekan human error, dan memastikan <strong>kontinuitas bisnis</strong>.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:22px">
+        <a class="btn" href="#nilai">Pelajari Nilai Inti <span class="arrow">→</span></a>
+        <a class="btn ghost" href="#paket">Bandingkan Paket</a>
       </div>
     </div>
 
-    <div data-reveal style="position:relative">
-      <!-- Visual hero: floating app tiles -->
-      <div class="surface" style="padding:26px;aspect-ratio:16/11; display:grid;place-items:center">
-        <div style="display:flex;gap:20px;align-items:center;transform-style:preserve-3d; perspective:800px">
-          <div class="tile" style="width:110px;height:110px;border-radius:24px;background:radial-gradient(60% 80% at 50% 35%, #fff3, #ffcc8a55 30%, #ff8a2a 85%);box-shadow:0 10px 40px rgba(255,140,40,.3); transform:rotateY(-12deg) rotateX(6deg) translateZ(20px)"></div>
-          <div class="tile" style="width:160px;height:160px;border-radius:28px;background:radial-gradient(60% 80% at 50% 35%, #fff5, #ffc27a66 28%, #ff8a2a 70%);box-shadow:0 10px 50px rgba(255,140,40,.4); transform:translateZ(40px);display:grid;place-items:center;font-weight:900;font-size:46px;color:#2b1a0c">IA</div>
-          <div class="tile" style="width:110px;height:110px;border-radius:24px;background:radial-gradient(60% 80% at 50% 35%, #fff3, #ffcc8a55 30%, #ff8a2a 85%);box-shadow:0 10px 40px rgba(255,140,40,.3); transform:rotateY(12deg) rotateX(-4deg) translateZ(22px)"></div>
-        </div>
-        <div style="position:absolute;bottom:16px;left:16px" class="muted">Simulasi UI • Parallax</div>
+    <div data-reveal class="cube-wrap" style="display:grid;place-items:center">
+      <div class="cube" aria-hidden="true">
+        <div class="face f1">A</div>
+        <div class="face f2">R</div>
+        <div class="face f3">I</div>
+        <div class="face f4">O</div>
+        <div class="face f5">N</div>
+        <div class="face f6">X</div>
       </div>
-      <div style="margin-top:16px">
-        <span class="note">Section Note: Visualisasi gaya brand (glow orange) untuk nuansa teknologi modern.</span>
-      </div>
+      <div class="sub" style="margin-top:12px;color:#86c7ff">Visualisasi Integrasi • Node Network</div>
     </div>
   </div>
 </header>
 
-<!-- =========================
-     PAKET LAYANAN
-     Section Note: Penawaran inti dalam tiga tier dengan copy singkat, harga, & manfaat utama.
-========================== -->
-<section id="paket">
+<!-- NILAI INTI / VALUE PROP -->
+<section id="nilai">
   <div class="container">
-    <div class="center" style="justify-content:space-between;flex-wrap:wrap;margin-bottom:16px">
-      <span class="badge">Paket Layanan Kunci</span>
-      <span class="note">Section Note: Memudahkan segmentasi kebutuhan (Starter • Advanced • Enterprise).</span>
-    </div>
+    <div class="surface" data-reveal style="padding:28px">
+      <div class="grid cols-3">
+        <div class="card">
+          <div class="kicker">01 • Efisiensi</div>
+          <div class="h3">Otomasi Kinerja</div>
+          <p class="sub" style="font-size:15px">Kecepatan & ketepatan untuk menghapus tugas robotik (input data, copy‑paste, cek silang) agar staf fokus ke strategi.</p>
+          <ul class="list">
+            <li><span class="dot"></span>Kurangi rework akibat salah ketik & duplikasi</li>
+            <li><span class="dot"></span>Standarisasi alur kerja lintas tim</li>
+          </ul>
+        </div>
 
-    <div class="grid cols-3">
-      <!-- UMKM JURAGAN -->
-      <div class="card" data-reveal>
-        <div class="kicker">Starter Sync</div>
-        <div class="h3">UMKM JURAGAN (Setup)</div>
-        <p class="muted">Robot Admin 1 bulan kerja: <strong>otomatisasi 1 proses</strong> (contoh: input order WA ke Accurate/Sheets).</p>
-        <ul class="list">
-          <li><span class="dot"></span>Integrasi 1 sumber data (WhatsApp/Forms)</li>
-          <li><span class="dot"></span>Pencatatan transaksi ke Sheets/Accurate</li>
-          <li><span class="dot"></span>Monitoring dasar + laporan mingguan</li>
-        </ul>
-        <p style="margin-top:14px">Range Harga: <span class="price">Rp 1.000.000 – Rp 2.000.000</span></p>
-        <div style="margin-top:10px"><a href="#final" class="btn">Mulai dari Paket Ini</a></div>
-      </div>
+        <div class="card">
+          <div class="kicker">02 • Kontinuitas</div>
+          <div class="h3">Nol Downtime Operasional</div>
+          <p class="sub" style="font-size:15px">Hindari ketergantungan individu pada proses kritikal. Workflow tetap berjalan meski staf kunci cuti/resign.</p>
+          <ul class="list">
+            <li><span class="dot"></span>Jaminan SLA & alert dini</li>
+            <li><span class="dot"></span>Closing & reporting tepat waktu</li>
+          </ul>
+        </div>
 
-      <!-- PERUSAHAAN EFEKTIF -->
-      <div class="card" data-reveal style="background:linear-gradient(180deg, rgba(255,170,90,.08), rgba(255,255,255,.02))">
-        <div class="kicker">Advanced Process</div>
-        <div class="h3">PERUSAHAAN EFEKTIF</div>
-        <p class="muted">Robot Admin <strong>End-to-End</strong>: otomasi penuh dari <em>lead → invoice</em>, termasuk validasi data.</p>
-        <ul class="list">
-          <li><span class="dot"></span>Pipeline lengkap (capture, enrich, invoice)</li>
-          <li><span class="dot"></span>Validasi & sanitasi data otomatis</li>
-          <li><span class="dot"></span>Dashboard performa + notifikasi</li>
-        </ul>
-        <p style="margin-top:14px">Range Harga: <span class="price">Rp 3.500.000 – Rp 5.000.000</span></p>
-        <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
-          <a href="#final" class="btn">Ajukan Konsultasi</a>
-          <a href="#garansi" class="btn ghost">Lihat SLA</a>
+        <div class="card">
+          <div class="kicker">03 • Data Real‑Time</div>
+          <div class="h3">Database Operasional</div>
+          <p class="sub" style="font-size:15px">Struktur data bersih (Sales, Leads, Finance) yang siap dihubungkan ke Accurate/CRM/Sheets.</p>
+          <ul class="list">
+            <li><span class="dot"></span>Integritas data terjamin</li>
+            <li><span class="dot"></span>Keputusan cepat berbasis data</li>
+          </ul>
         </div>
       </div>
+    </div>
 
-      <!-- ENTERPRISE CUSTOM -->
-      <div class="card" data-reveal>
-        <div class="kicker">Spesialisasi</div>
-        <div class="h3">ENTERPRISE CUSTOM</div>
-        <p class="muted">Solusi tailor-made tingkat tinggi (audit trail, compliance reporting).</p>
+    <div class="grid cols-2" style="margin-top:22px">
+      <div class="surface" data-reveal style="padding:26px">
+        <h2 class="h3" style="font-size:28px">Digital Front‑End Terintegrasi</h2>
+        <p class="sub">Landing page ringan untuk branding & konversi lead. Form terhubung <em>native</em> ke workflow otomasi — <strong>Automasi sejak kontak pertama</strong>.</p>
         <ul class="list">
-          <li><span class="dot"></span>Arsitektur microservice & queue</li>
-          <li><span class="dot"></span>Audit trail & compliance report</li>
-          <li><span class="dot"></span>Integrasi multi-sistem & SSO</li>
+          <li><span class="dot"></span>Input lead/order → CRM/Sheets secara instan</li>
+          <li><span class="dot"></span>Kurangi keterlambatan follow‑up penjualan</li>
         </ul>
-        <p style="margin-top:14px">Mulai dari <span class="price">Rp 30.000.000</span></p>
-        <div style="margin-top:10px"><a href="#final" class="btn">Diskusi Kebutuhan</a></div>
+      </div>
+
+      <div class="surface" data-reveal style="padding:26px">
+        <h2 class="h3" style="font-size:28px">Model Harga Berbasis Nilai</h2>
+        <p class="sub">Harga ditentukan oleh <strong>penghematan</strong> & <strong>risiko yang dihapus</strong>.</p>
+        <div class="timeline">
+          <div class="step">
+            <div class="tag">Fase 1 — Setup</div>
+            <div><strong>Project‑Based</strong> berdasarkan nilai efisiensi 12 bulan; target ROI 3–6 bulan.</div>
+          </div>
+          <div class="step">
+            <div class="tag">Fase 2 — Operasional</div>
+            <div><strong>Retainer Bulanan</strong> untuk monitoring, SLA, dan pencegahan downtime.</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- =========================
-     GARANSI / RETAINER
-     Section Note: Menumbuhkan trust melalui janji kinerja + paket SLA.
-========================== -->
-<section id="garansi">
+<!-- PAKET LAYANAN -->
+<section id="paket">
   <div class="container">
-    <div class="center" style="gap:10px;margin-bottom:12px">
-      <span class="badge">The Guarantee • Retainer Fee</span>
+    <div class="grid cols-3">
+      <div class="card" data-reveal>
+        <div class="kicker">Starter Sync</div>
+        <div class="h3">UMKM JURAGAN</div>
+        <p class="sub" style="font-size:15px">Robot Admin 1 bulan: otomatisasi 1 proses utama (contoh: input order WA → Sheets/Accurate).</p>
+        <ul class="list">
+          <li><span class="dot"></span>Integrasi 1 sumber data</li>
+          <li><span class="dot"></span>Pencatatan transaksi otomatis</li>
+          <li><span class="dot"></span>Monitoring dasar + laporan mingguan</li>
+        </ul>
+        <p style="margin-top:12px">Range Harga: <span class="price">Rp 1.000.000 – Rp 2.000.000</span></p>
+        <div style="margin-top:8px"><a class="btn" href="#form">Mulai Paket Ini</a></div>
+      </div>
+
+      <div class="card" data-reveal style="background:linear-gradient(180deg, rgba(49,243,183,.08), rgba(255,255,255,.02))">
+        <div class="kicker">Advanced Process</div>
+        <div class="h3">PERUSAHAAN EFEKTIF</div>
+        <p class="sub" style="font-size:15px">Automasi end‑to‑end: <em>lead → invoice</em> dengan validasi & decision logic.</p>
+        <ul class="list">
+          <li><span class="dot"></span>Pipeline lengkap + dashboard performa</li>
+          <li><span class="dot"></span>Validasi & sanitasi data</li>
+          <li><span class="dot"></span>Notifikasi multi‑channel</li>
+        </ul>
+        <p style="margin-top:12px">Range Harga: <span class="price">Rp 3.500.000 – Rp 5.000.000</span></p>
+        <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn" href="#form">Ajukan Konsultasi</a>
+          <a class="btn ghost" href="#garansi">Lihat SLA</a>
+        </div>
+      </div>
+
+      <div class="card" data-reveal>
+        <div class="kicker">Spesialisasi</div>
+        <div class="h3">ENTERPRISE CUSTOM</div>
+        <p class="sub" style="font-size:15px">Solusi tailor‑made (audit trail, compliance reporting, microservice).</p>
+        <ul class="list">
+          <li><span class="dot"></span>Arsitektur queue & SSO</li>
+          <li><span class="dot"></span>Integrasi multi‑sistem</li>
+          <li><span class="dot"></span>Scale & reliability</li>
+        </ul>
+        <p style="margin-top:12px">Mulai dari <span class="price">Rp 30.000.000</span></p>
+        <div style="margin-top:8px"><a class="btn" href="#form">Diskusi Kebutuhan</a></div>
+      </div>
     </div>
 
-    <div class="surface" data-reveal style="padding:32px">
+    <div class="surface" id="garansi" data-reveal style="padding:26px;margin-top:26px">
       <div class="grid cols-2" style="align-items:center">
         <div>
-          <h2 class="heading-xl" style="font-size:38px">Garansi Kinerja: <br/>Robot Admin Anda <em>Tidak Akan Pernah Mogok</em>.</h2>
-          <p class="sub">Fokus kami adalah <strong>performansi & uptime tinggi</strong>. Sistem selalu terpantau, dukungan prioritas, dan perawatan rutin dengan laporan bulanan.</p>
-          <div style="margin-top:10px">
-            <span class="note">Section Note: Menjawab kekhawatiran risiko downtime & kualitas layanan.</span>
+          <h2 class="h3" style="font-size:28px">Retainer Bulanan — Garansi Kinerja</h2>
+          <p class="sub">Klien membayar untuk kepastian robot admin <strong>tidak pernah mogok</strong> — monitoring, maintenance, respon prioritas.</p>
+          <div class="timeline">
+            <div class="step">
+              <div class="tag">Essential SLA</div>
+              <div><strong>Garansi Stabil</strong> — Monitoring harian, fixing bug non‑kritis, alokasi eksekusi dasar. <span class="price">Rp 750.000 / bulan</span></div>
+            </div>
+            <div class="step">
+              <div class="tag">Gold SLA</div>
+              <div><strong>Nol Downtime</strong> — Uptime 24/7, troubleshooting prioritas (respon ≤4 jam), maintenance rutin, laporan bulanan. <span class="price">Rp 1.500.000 – Rp 2.500.000 / bulan</span></div>
+            </div>
           </div>
         </div>
-
         <div>
           <table aria-label="Paket Retainer">
             <thead>
               <tr>
-                <th style="width:28%">Paket Retainer</th>
-                <th>Manfaat Utama</th>
-                <th style="width:26%">Biaya Bulanan</th>
+                <th style="width:28%">Paket</th>
+                <th>Manfaat</th>
+                <th style="width:26%">Biaya</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>Garansi Stabil</strong> (Essential SLA)</td>
-                <td>Monitoring harian & perbaikan bug non-kritis.</td>
+                <td><strong>Garansi Stabil</strong></td>
+                <td>Monitoring harian & perbaikan bug non‑kritis.</td>
                 <td><strong>Rp 750.000</strong> / bulan</td>
               </tr>
               <tr>
-                <td><strong>Nol Downtime</strong> (Gold SLA)</td>
-                <td>Uptime 24/7 & troubleshooting prioritas (respon maks 4 jam).</td>
+                <td><strong>Nol Downtime</strong></td>
+                <td>Uptime 24/7 & troubleshooting prioritas (≤4 jam).</td>
                 <td><strong>Rp 1.500.000 – Rp 2.500.000</strong> / bulan</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-
-      <div class="sep"></div>
-      <div class="grid cols-3">
-        <div class="card" data-reveal>
-          <div class="kicker">Terpantau</div>
-          <div class="h3">Monitoring Real-Time</div>
-          <p class="muted">Heartbeat, retry queue, dan alert otomatis untuk menjaga kestabilan.</p>
-        </div>
-        <div class="card" data-reveal>
-          <div class="kicker">Prioritas</div>
-          <div class="h3">Gold Support</div>
-          <p class="muted">SLA jelas: respon maks 4 jam, eskalasi teknis langsung ke engineer.</p>
-        </div>
-        <div class="card" data-reveal>
-          <div class="kicker">Transparan</div>
-          <div class="h3">Laporan Bulanan</div>
-          <p class="muted">Insight performa, jam kerja robot, dan rekomendasi optimasi.</p>
-        </div>
-      </div>
     </div>
+
   </div>
 </section>
 
-<!-- =========================
-     FINAL CTA (FORM)
-     Section Note: Konversi — form singkat untuk memulai percakapan.
-========================== -->
+<!-- FINAL CTA -->
 <section id="final">
   <div class="container">
-    <div class="center" style="justify-content:space-between;flex-wrap:wrap;margin-bottom:10px">
-      <span class="badge">Penutup yang Mengubah</span>
-      <span class="note">Section Note: Mengajak pengunjung mengisi form untuk analisis gratis.</span>
-    </div>
-
     <div class="surface" data-reveal style="padding:28px">
-      <div class="grid cols-2">
+      <div class="grid cols-2" style="align-items:center">
         <div>
-          <h2 class="heading-xl" style="font-size:38px;margin-bottom:6px">Siap Mengubah Biaya <br/>Menjadi <em>Investasi Kinerja</em>?</h2>
-          <p class="sub">Isi form singkat ini — kami akan <strong>menganalisis potensi penghematan</strong> dan merancang rencana automasi awal yang paling masuk akal untuk operasi Anda.</p>
-          <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap">
-            <a href="#form" class="btn">Dapatkan Analisis (Gratis) <span class="arrow">→</span></a>
-            <a href="#paket" class="btn ghost">Bandingkan Paket</a>
+          <h2 class="heading-xl" style="font-size:38px">Siap ubah biaya <br>menjadi <em class="highlight">Investasi Kinerja</em>?</h2>
+          <p class="sub">Isi form singkat ini. Kami akan mengirim <strong>analisis penghematan</strong> & rencana automasi awal tanpa komitmen.</p>
+          <div style="margin-top:16px">
+            <a class="btn" href="#form">Dapatkan Analisis (Gratis) <span class="arrow">→</span></a>
           </div>
-          <div style="margin-top:22px" class="muted">*Tanpa komitmen. Estimasi efisiensi waktu & biaya akan dikirim via email.</div>
         </div>
 
         <form id="form" onsubmit="return submitForm(event)" style="display:grid;gap:14px">
           <div class="field">
             <label>Nama</label>
-            <input class="input" name="nama" required placeholder="Nama lengkap" />
+            <input class="input" name="nama" required placeholder="Nama lengkap">
           </div>
           <div class="field">
             <label>Email</label>
-            <input class="input" type="email" name="email" required placeholder="you@company.com" />
+            <input class="input" type="email" name="email" required placeholder="you@company.com">
           </div>
           <div class="field">
             <label>Nomor WhatsApp</label>
-            <input class="input" name="wa" required placeholder="08xxxxxxxxxx" />
+            <input class="input" name="wa" required placeholder="08xxxxxxxxxx">
           </div>
           <div class="field">
             <label>Masalah utama yang ingin diotomasi</label>
-            <textarea class="textarea" name="masalah" placeholder="Contoh: input order ke akuntansi, follow-up lead, pembuatan invoice, dsb."></textarea>
+            <textarea class="textarea" name="masalah" placeholder="Contoh: input order ke akuntansi, follow‑up lead, pembuatan invoice, dsb."></textarea>
           </div>
-          <div class="center" style="justify-content:space-between">
+          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
             <button class="btn" type="submit">Kirim & Dapatkan Analisis</button>
-            <a target="_blank" class="btn ghost" href="https://wa.me/6287761335819?text=Halo%20RILEXO%2C%20saya%20ingin%20mendapatkan%20Analisis%20Potensi%20Penghematan%20otomasi.%20Apakah%20bisa%20dibantu%3F">Hubungi via WhatsApp</a>
+            <a class="btn ghost" target="_blank" href="https://wa.me/6287761335819?text=Halo%20AutoRan%2C%20saya%20ingin%20mendapatkan%20Analisis%20Potensi%20Penghematan%20otomasi.%20Apakah%20bisa%20dibantu%3F">Hubungi via WhatsApp</a>
           </div>
-          <div id="msg" class="muted"></div>
+          <div id="msg" class="sub" style="min-height:24px"></div>
         </form>
       </div>
     </div>
@@ -435,54 +445,66 @@
 <footer>
   <div class="container">
     <div class="sep"></div>
-    <div class="center" style="justify-content:space-between;flex-wrap:wrap">
-      <div>© <span id="year"></span> RILEXO. All rights reserved.</div>
-      <div class="muted">Built with ❤️ for high-performance automation.</div>
+    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div>© <span id="year"></span> AutoRan. All rights reserved.</div>
+      <div class="sub">Automation Matrix • Built for high‑performance operations.</div>
     </div>
   </div>
 </footer>
 
 <script>
-/* =====================================================
-   PARTICLE FIELD (background canvas)
-   Lightweight “circuit” particles moving vertically to echo the references
-===================================================== */
+/* ============================
+   MATRIX BACKGROUND (Canvas)
+   Animated diagonal data-lines + nodes
+============================ */
 (function(){
-  const c=document.getElementById('fx');
+  const c=document.getElementById('matrix');
   const ctx=c.getContext('2d');
-  let w,h,pr=window.devicePixelRatio||1, particles=[], raf;
+  let w,h,pr=window.devicePixelRatio||1, nodes=[], raf;
   function size(){
     w=window.innerWidth; h=window.innerHeight;
     c.width=w*pr; c.height=h*pr; c.style.width=w+'px'; c.style.height=h+'px';
     ctx.setTransform(pr,0,0,pr,0,0);
   }
-  function Particle(){
+  function Node(){
     this.x=Math.random()*w;
     this.y=Math.random()*h;
-    this.v= .4 + Math.random()*1.2;
-    this.s= 1 + Math.random()*2;
-    this.a= .25 + Math.random()*.45;
+    this.vx= .2 + Math.random()* .5;
+    this.vy= .2 + Math.random()* .5;
+    this.r = 1 + Math.random()*1.8;
+    this.hue = Math.random()>.5 ? 'rgba(31,209,255,' : 'rgba(48,255,160,';
+    this.a = .15 + Math.random()*.35;
   }
-  function init(n=110){
-    particles = new Array(n).fill().map(()=>new Particle());
-  }
+  function init(n=90){ nodes=new Array(n).fill().map(()=>new Node()); }
   function tick(){
     ctx.clearRect(0,0,w,h);
-    // subtle gradient
-    const g=ctx.createLinearGradient(0,0,0,h);
-    g.addColorStop(0,'rgba(255,150,60,.05)');
-    g.addColorStop(1,'rgba(255,120,30,.03)');
-    ctx.fillStyle=g;
-    ctx.fillRect(0,0,w,h);
+    // faint backdrop
+    const g=ctx.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'rgba(31,209,255,.05)');
+    g.addColorStop(1,'rgba(48,255,160,.04)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
 
+    // lines
     ctx.lineWidth=1;
-    particles.forEach(p=>{
-      p.y+=p.v; if(p.y>h+20){p.y=-20; p.x=Math.random()*w}
-      // glowing dots + vertical line
-      ctx.strokeStyle='rgba(255,180,90,.10)';
-      ctx.beginPath(); ctx.moveTo(p.x, p.y-14); ctx.lineTo(p.x, p.y+8); ctx.stroke();
-      ctx.fillStyle=`rgba(255,160,70,${p.a})`;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
+    for(let i=0;i<nodes.length;i++){
+      const a=nodes[i];
+      for(let j=i+1;j<nodes.length;j++){
+        const b=nodes[j];
+        const dx=a.x-b.x, dy=a.y-b.y, d=Math.hypot(dx,dy);
+        if(d<120){
+          ctx.strokeStyle='rgba(140,240,220,'+ (0.07 + (120-d)/120*0.12) +')';
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+
+    // nodes
+    nodes.forEach(n=>{
+      n.x+=n.vx; n.y+=n.vy;
+      if(n.x>w+10) n.x=-10;
+      if(n.y>h+10) n.y=-10;
+      ctx.fillStyle = n.hue + n.a + ')';
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fill();
     });
     raf=requestAnimationFrame(tick);
   }
@@ -490,70 +512,31 @@
   window.addEventListener('resize',()=>{cancelAnimationFrame(raf); size(); tick();});
 })();
 
-/* =====================================================
-   PARALLAX ORBS (mouse based)
-===================================================== */
-(function(){
-  const orbs=[...document.querySelectorAll('.orb')];
-  window.addEventListener('mousemove', (e)=>{
-    const x=(e.clientX/window.innerWidth - .5)*2;
-    const y=(e.clientY/window.innerHeight - .5)*2;
-    orbs.forEach((o,i)=>{
-      const depth=(i+1)*8;
-      o.style.transform=`translate(${x*depth}px, ${y*depth}px)`;
-    });
-  });
-})();
-
-/* =====================================================
-   SCROLL REVEAL
-===================================================== */
+/* REVEAL */
 (function(){
   const els=[...document.querySelectorAll('[data-reveal]')];
-  const io=new IntersectionObserver(entries=>{
-    entries.forEach(r=>{
-      if(r.isIntersecting){ r.target.classList.add('is-visible'); io.unobserve(r.target); }
-    });
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(r=>{ if(r.isIntersecting){ r.target.classList.add('is-visible'); io.unobserve(r.target);} });
   },{threshold:.18});
   els.forEach(el=>io.observe(el));
 })();
 
-/* =====================================================
-   MAGNETIC BUTTONS (slight follow effect)
-===================================================== */
+/* BUTTON ripple position */
 document.querySelectorAll('.btn').forEach(btn=>{
-  btn.addEventListener('mousemove', e=>{
-    const r=btn.getBoundingClientRect();
-    const x = ((e.clientX - r.left)/r.width - .5) * 10;
-    const y = ((e.clientY - r.top)/r.height - .5) * 10;
-    btn.style.transform = `translate(${x}px,${y}px)`;
+  btn.addEventListener('pointerdown', e=>{
+    const b=e.currentTarget.getBoundingClientRect();
+    const x=e.clientX-b.left, y=e.clientY-b.top;
+    btn.style.setProperty('--x', x+'px'); btn.style.setProperty('--y', y+'px');
   });
-  btn.addEventListener('mouseleave', ()=>btn.style.transform='translateY(0)');
 });
 
-/* =====================================================
-   CARD TILT (on move)
-===================================================== */
-document.querySelectorAll('.card').forEach(card=>{
-  card.addEventListener('mousemove', e=>{
-    const r=card.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
-    const rx=(.5-y)*8, ry=(x-.5)*10;
-    card.style.transform=`perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
-  });
-  card.addEventListener('mouseleave', ()=>card.style.transform='');
-});
-
-/* =====================================================
-   FORM HANDLER (demo only)
-===================================================== */
+/* FORM (demo only) */
 function submitForm(e){
   e.preventDefault();
   const data=Object.fromEntries(new FormData(e.target).entries());
   const msg=document.getElementById('msg');
-  msg.textContent='Terima kasih, '+ (data.nama || 'Anda') + '. Ringkasan dikirim ke ' + (data.email || 'email Anda') + '. Kami akan menghubungi via WhatsApp.';
+  msg.textContent='Terima kasih, '+ (data.nama||'Anda') +'. Ringkasan akan dikirim ke '+ (data.email||'email Anda') +'. Kami hubungi via WhatsApp.';
   e.target.reset();
-  // focus for accessibility
   msg.setAttribute('tabindex','-1'); msg.focus();
   return false;
 }
